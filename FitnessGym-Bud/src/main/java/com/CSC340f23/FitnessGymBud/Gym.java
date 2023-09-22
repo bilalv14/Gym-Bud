@@ -40,8 +40,6 @@ public class Gym {
         return "Gym [ID: " + gymId + ", Name: " + gymName + "]";
     }
 
-    // Optionally, you may want to override the equals() and hashCode() methods as well
-    // to help with comparison and usage in collections. Here's a basic version:
 
     @Override
     public boolean equals(Object obj) {

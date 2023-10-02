@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Fitness Gym Bud (FGB)</h1>
+        <p>Live free and healthy</p>
+    </header>
+
+    <section class="login-section">
+        <h2>Login or Sign Up</h2>
+        <div class="user-type">
+            <label for="user-type">Select User Type:</label>
+            <select id="user-type">
+                <option value="gym-admin">Gym Admin</option>
+                <option value="personal-trainer">Personal Trainer</option>
+                <option value="gym-member">Gym Member/Client</option>
+            </select>
+        </div>
+        <div class="login-form">
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="Password">
+            <button id="login-button">Login</button>
+        </div>
+        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        document.getElementById('user-type').addEventListener('change', function () {
+            var userType = this.value;
+            var loginButton = document.getElementById('login-button');
+
+            if (userType === 'gym-admin') {
+                loginButton.setAttribute('onclick', 'window.location.href="gymAdmin.html";');
+            } else if (userType === 'personal-trainer') {
+                loginButton.setAttribute('onclick', 'window.location.href="personalTrainer.html";');
+            } else if (userType === 'gym-member') {
+                loginButton.setAttribute('onclick', 'window.location.href="gymMember.html";');
+            } else {
+                loginButton.removeAttribute('onclick');
+            }
+        });
+    </script>
+</body>
+</html>

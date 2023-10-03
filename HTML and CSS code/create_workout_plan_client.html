@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Workout - Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Create Your Workout Plan</h1>
+    </header>
+
+    <section class="create-workout-section">
+        <h2>Workout Details</h2>
+        <form id="workout-form">
+            <div id="workout-container">
+            </div>
+            <button type="button" id="add-workout-button">Add Workout</button>
+            <button type="submit">Create Workout</button>
+            <button type="button" id="view-workout-button" onclick="viewWorkoutPlan()">View Workout Plan</button>
+        </form>
+        <button id="back-button" onclick="goBackToGymMemberpage()">Go Back to Gym Member Page</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const workoutContainer = document.getElementById('workout-container');
+            const addWorkoutButton = document.getElementById('add-workout-button');
+
+            addWorkoutButton.addEventListener('click', function () {
+                createWorkoutItem();
+            });
+
+
+            function createWorkoutItem() {
+                const workoutItem = document.createElement('div');
+                workoutItem.className = 'workout-item';
+
+                workoutItem.innerHTML = `
+                    <div class="workout-item-inner">
+                        <label for="exercise">Exercise:</label>
+                        <select name="exercise" required onchange="toggleExerciseNameInput(this)">
+                            <option value="bench">Bench Press</option>
+                            <option value="squat">Squat</option>
+                            <option value="deadlift">Deadlift</option>
+                            <option value="custom">Custom Exercise</option>
+                        </select>
+                    </div>
+                    <div class="workout-item-inner custom-exercise-name-container" style="display: none;">
+                        <label for="exercise-name">Exercise Name:</label>
+                        <input type="text" name="exercise-name" class="custom-exercise-name">
+                    </div>
+                    <div class="workout-item-inner">
+                        <label for="weight">Weight (lbs):</label>
+                        <input type="number" name="weight" required>
+                    </div>
+                    <div class="workout-item-inner">
+                        <label for="sets">Sets:</label>
+                        <input type="number" name="sets" required>
+                    </div>
+                    <div class="workout-item-inner">
+                        <label for="reps">Reps:</label>
+                        <input type="number" name="reps" required>
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteWorkoutItem(this)">Delete</button>
+                `;
+
+                workoutContainer.appendChild(workoutItem);
+            }
+
+            function toggleExerciseNameInput(selectElement) {
+                const customExerciseNameContainer = selectElement.parentElement.nextElementSibling;
+                const isCustomExercise = selectElement.value === 'custom';
+
+                if (isCustomExercise) {
+                    customExerciseNameContainer.style.display = 'block';
+                } else {
+                    customExerciseNameContainer.style.display = 'none';
+                }
+            }
+
+
+        });
+
+        function viewWorkoutPlan() {
+            window.location.href = 'view_workout_plan.html';
+        }
+        function deleteWorkoutItem(button) {
+            const workoutItem = button.parentElement;
+            workoutItem.parentElement.removeChild(workoutItem);
+        }
+        function goBackToGymMemberpage() {
+            window.location.href = 'gymMember.html';
+        }
+    </script>
+</body>
+
+</html>

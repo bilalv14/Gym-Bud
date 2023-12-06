@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Fitness Gym Bud (FGB)</h1>
+        <p>Live free and healthy</p>
+    </header>
+
+    <section class="login-section">
+        <h2>Login</h2>
+        <div class="login-form">
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <br>
+                <label for="user-type">Select User Type:</label>
+                <select id="user-type" name="userType">
+                    <option value="gym-admin">Gym Admin</option>
+                    <option value="personal-trainer">Personal Trainer</option>
+                    <option value="gym-member">Gym Member/Client</option>
+                </select>
+                <br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <p>Don't have an account? <a href="/user/signup">Sign Up</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var userType = document.getElementById('user-type').value;
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var baseUrl = '/user/';
+
+            // Make an HTTP request to your backend to verify credentials
+            fetch('/user/loginSuccess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `username=${username}&password=${password}&userType=${userType}`,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.loginSuccessful) {
+                    switch (userType) {
+                        case 'gym-admin':
+                            window.location.href = 'http://localhost:8080/admin/home';
+                            break;
+                        case 'personal-trainer':
+                            window.location.href = 'http://localhost:8080/trainer';
+                            break;
+                        case 'gym-member':
+                            window.location.href = 'http://localhost:8080/gymMember';
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    alert('Invalid username or password. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+    </script>
+</body>
+</html>

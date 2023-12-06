@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Meal Plan - Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Create Your Meal Plan</h1>
+    </header>
+
+    <section class="create-meal-plan-section">
+        <h2>Meal Details</h2>
+        <form id="meal-plan-form" th:action="@{/mealPlan/create}" method="post" th:object="${mealPlan}">
+            <div id="meal-plan-container">
+                <div class="meal-plan-item">
+                    <input type="text" name="foodName" placeholder="Food Name">
+                    <input type="number" name="protein" placeholder="Protein (g)" min="0">
+                    <input type="number" name="carbs" placeholder="Carbs (g)" min="0">
+                    <input type="number" name="fats" placeholder="Fats (g)" min="0">
+                    <input type="number" name="calories" placeholder="Calories" min="0">
+                    <button type="button" onclick="deleteMealItem(this)">Delete</button>
+                </div>
+            </div>
+            <button type="button" onclick="addMealItem()">Add Meal</button>
+            <button type="submit">Create Meal</button>
+            <button type="button" onclick="viewMeals()">View Meals</button>
+        </form>
+        <button onclick="goBackToGymMemberpage()">Go Back to Gym Member Page</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        function addMealItem() {
+            const mealContainer = document.getElementById('meal-plan-container');
+            const mealItem = document.querySelector('.meal-plan-item').cloneNode(true);
+
+            // Clear values in the cloned meal item
+            mealItem.querySelectorAll('input').forEach(input => input.value = '');
+
+            mealContainer.appendChild(mealItem);
+        }
+
+        function submitMealData(foodNameValue, proteinValue, carbsValue, fatsValue, caloriesValue) {
+            const url = '/mealPlan/create';
+
+            const data = {
+                foodName: foodNameValue,
+                protein: proteinValue,
+                carbs: carbsValue,
+                fats: fatsValue,
+                calories: caloriesValue
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+
+        function createMeal() {
+            const mealItems = document.querySelectorAll('.meal-plan-item');
+
+            mealItems.forEach(item => {
+                const foodNameValue = item.querySelector('[name="foodName"]').value;
+                const proteinValue = item.querySelector('[name="protein"]').value;
+                const carbsValue = item.querySelector('[name="carbs"]').value;
+                const fatsValue = item.querySelector('[name="fats"]').value;
+                const caloriesValue = item.querySelector('[name="calories"]').value;
+
+                submitMealData(foodNameValue, proteinValue, carbsValue, fatsValue, caloriesValue);
+            });
+        }
+
+        function viewMeals() {
+            window.location.href = '/mealPlan/view';
+        }
+
+        function deleteMealItem(button) {
+            const mealItem = button.parentElement;
+            mealItem.remove();
+        }
+
+        function goBackToGymMemberpage() {
+            window.location.href = '/gymMember';
+        }
+    </script>
+</body>
+
+</html>

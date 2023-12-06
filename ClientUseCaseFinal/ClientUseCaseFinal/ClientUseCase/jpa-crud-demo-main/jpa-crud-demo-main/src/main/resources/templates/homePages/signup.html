@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up - Fitness Gym Bud (FGB)</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Sign Up for Fitness Gym Bud (FGB)</h1>
+        </header>
+
+        <section class="signup-section">
+            <h2>Choose Your User Type:</h2>
+            
+
+            <form action="/user/create" method="POST">
+                <div class="signup-form">
+                    <label for="user-type">User Type:</label>
+                    <select id="user-type" name="userType">
+                        <option value="gym-admin">Gym Admin</option>
+                        <option value="personal-trainer">Personal Trainer</option>
+                        <option value="gym-member">Gym Member/Client</option>
+                    </select>
+
+                    <input type="text" id="username" name="username" placeholder="Username">
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+
+            <p>Already have an account? <a href="/user/login">Login</a></p>
+        </section>
+
+        <footer>
+            <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+        </footer>
+
+        <script>
+            function submitSignUpData() {
+                const userType = document.getElementById('user-type').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                const url = '/user/create';
+
+                const data = {
+                    userType: userType,
+                    username: username,
+                    password: password
+                };
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            
+
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+            }
+
+            
+        </script>
+    </body>
+</html>

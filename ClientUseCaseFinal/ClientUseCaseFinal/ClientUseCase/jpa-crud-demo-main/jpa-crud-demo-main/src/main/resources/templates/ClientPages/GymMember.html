@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fitness Gym Bud (FGB) - Client/Gym Member Page</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>Welcome, [Client/Gym Member ]</h1>
+        </header>
+
+        <section class="member-options">
+            <h2>Member Options</h2>
+            <div class="option-container">
+                <div class="option-box">
+                    <h3>Log meals</h3>
+
+                    <a href="/mealPlan/show">Log Meals </a>
+                </div>
+                <div class="option-box">
+                    <h3>Log workouts</h3>
+                    <a href="/workout/show">Create Workouts</a>
+                </div>
+                <div class="option-box">
+                    <h3>Leave Feedback</h3>
+
+                    <form action="/feedback/submit" method="POST">
+                        <label for="feedback">Your Feedback:</label>
+                        <textarea id="feedback" name="message" rows="4" cols="50"></textarea>
+
+                        <!-- Add a username field -->
+                        <label for="username">Your Username:</label>
+                        <input type="text" id="username" name="username" required>
+
+                        <input type="submit" value="Send Feedback">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="signout-section">
+            <h2>Sign Out</h2>
+            <div class="signout-container">
+                <a href="/user/login" class="signout-box">
+                    <h3>Sign Out</h3>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+        </footer>
+    </body>
+</html>

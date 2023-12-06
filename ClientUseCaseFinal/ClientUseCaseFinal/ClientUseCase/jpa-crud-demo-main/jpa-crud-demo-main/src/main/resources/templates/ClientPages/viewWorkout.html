@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Workout - Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Your Workouts</h1>
+    </header>
+
+    <section class="view-workout-section">
+        <h2>Workout History</h2>
+        <div th:each="workout : ${workouts}">
+            <div class="workout-item">
+                <p th:text="'Exercise: ' + ${workout.exercise}"></p>
+                <p th:text="'Weight: ' + ${workout.weight} + ' lbs'"></p>
+                <p th:text="'Reps: ' + ${workout.reps}"></p>
+                <p th:text="'Sets: ' + ${workout.sets}"></p>
+            </div>
+        </div>
+        <button onclick="goBackToGymMemberpage()">Go Back to Gym Member Page</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        function goBackToGymMemberpage() {
+            window.location.href = '/gymMember';
+        }
+    </script>
+</body>
+</html>

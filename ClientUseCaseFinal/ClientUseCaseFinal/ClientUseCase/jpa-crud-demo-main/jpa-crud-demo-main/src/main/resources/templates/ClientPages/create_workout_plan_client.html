@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Workout - Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Log Your Workout</h1>
+    </header>
+
+    <section class="log-workout-section">
+        <h2>Workout Details</h2>
+        <form id="workout-form" th:action="@{/workout/create}" method="post" th:object="${workout}">
+            <div id="workout-container">
+                <div class="workout-item">
+                    <select name="exercise" onchange="toggleExerciseNameInput(this)">
+                        <option value="bench">Bench</option>
+                        <option value="squat">Squat</option>
+                        <option value="deadlift">Deadlift</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <div style="display: none;">
+                        <input type="text" name="customExerciseName" placeholder="Enter custom exercise">
+                    </div>
+                    <input type="number" name="weight" placeholder="Weight (lbs)" min="0">
+                    <input type="number" name="reps" placeholder="Reps" min="0">
+                    <input type="number" name="sets" placeholder="Sets" min="0">
+                    <button type="button" onclick="deleteWorkoutItem(this)">Delete</button>
+                </div>
+            </div>
+            <button type="button" onclick="createWorkoutItem()">Add Exercise</button>
+            <button type="submit">Log Workout</button>
+            <button type="button" onclick="viewWorkouts()">View Workouts</button>
+        </form>
+        <button onclick="goBackToGymMemberpage()">Go Back to Gym Member Page</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        function createWorkoutItem() {
+            const workoutContainer = document.getElementById('workout-container');
+            const workoutItem = document.querySelector('.workout-item').cloneNode(true);
+
+            // Clear values in the cloned workout item
+            workoutItem.querySelectorAll('input').forEach(input => input.value = '');
+
+            workoutContainer.appendChild(workoutItem);
+        }
+
+        function toggleExerciseNameInput(selectElement) {
+            const customExerciseNameContainer = selectElement.nextElementSibling;
+            const isCustomExercise = selectElement.value === 'custom';
+
+            if (isCustomExercise) {
+                customExerciseNameContainer.style.display = 'block';
+            } else {
+                customExerciseNameContainer.style.display = 'none';
+            }
+        }
+
+        function submitExerciseData(exerciseValue, customExerciseNameValue, weightValue, repsValue, setsValue) {
+            const url = '/workout/create'; 
+
+        const data = {
+            exercise: exerciseValue,
+            customExerciseName: customExerciseNameValue,
+            weight: weightValue,
+            reps: repsValue,
+            sets: setsValue
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+        }
+
+        function createWorkoutPlan() {
+            const workoutItems = document.querySelectorAll('.workout-item');
+
+            workoutItems.forEach(item => {
+                const exerciseValue = item.querySelector('[name="exercise"]').value;
+                const customExerciseNameValue = item.querySelector('[name="customExerciseName"]').value;
+                const weightValue = item.querySelector('[name="weight"]').value;
+                const repsValue = item.querySelector('[name="reps"]').value;
+                const setsValue = item.querySelector('[name="sets"]').value;
+
+                submitExerciseData(exerciseValue, customExerciseNameValue, weightValue, repsValue, setsValue);
+            });
+        }
+
+        function viewWorkouts() {
+            window.location.href = '/workout/pastworkout';
+        }
+
+        function deleteWorkoutItem(button) {
+            const workoutItem = button.parentElement;
+            workoutItem.remove();
+        }
+
+        function goBackToGymMemberpage() {
+            window.location.href = '/gymMember';
+        }
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Past Meals - Fitness Gym Bud (FGB)</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Your Past Meals</h1>
+    </header>
+
+    <section class="view-meals-section">
+        <h2>Meal Plan History</h2>
+        <div th:each="meal : ${meals}">
+            <div class="meal-item">
+                <p th:text="'Food Name: ' + ${meal.foodName}"></p>
+                <p th:text="'Protein (g): ' + ${meal.protein}"></p>
+                <p th:text="'Carbs (g): ' + ${meal.carbs}"></p>
+                <p th:text="'Fats (g): ' + ${meal.fats}"></p>
+                <p th:text="'Calories: ' + ${meal.calories}"></p>
+            </div>
+        </div>
+        <button onclick="goBackToGymMemberPage()">Go Back to Gym Member Page</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Fitness Gym Bud (FGB)</p>
+    </footer>
+
+    <script>
+        function goBackToGymMemberPage() {
+            window.location.href = '/gymMember';
+        }
+    </script>
+</body>
+</html>
